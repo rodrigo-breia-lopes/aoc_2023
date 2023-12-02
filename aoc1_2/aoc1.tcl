@@ -1,14 +1,14 @@
 proc calibrator_parser {t} {
 
-    set lista(1) "one"
-    set lista(2) "two"
-    set lista(3) "three"
-    set lista(4) "four"
-    set lista(5) "five"
-    set lista(6) "six"
-    set lista(7) "seven"
-    set lista(8) "eight"
-    set lista(9) "nine"
+    set table(1) "one"
+    set table(2) "two"
+    set table(3) "three"
+    set table(4) "four"
+    set table(5) "five"
+    set table(6) "six"
+    set table(7) "seven"
+    set table(8) "eight"
+    set table(9) "nine"
 
     set first_f 1
     set calval ""
@@ -18,37 +18,27 @@ proc calibrator_parser {t} {
         if {[string is digit -strict $char]} {
             set calval $char
         } else {
-
-            set ok 1
+            set n 0
             set substr $char
-            set n 0 
-
-            while {$ok} {
-                # iterar por cada lookup
-                for {set j 1} {$j < 9} {incr $j} { 
-                    puts "$j: \ts: $substr\t r:$[string range $lista($j) 0 $n]"
-                    # comprar s(1:n) == lista(j)(1:n)
-                    if {$substr == [string range $lista($j) 0 $n]} {
-                        incr n
-                        if {[string index $lista($j) $n] == ""} {
-                            set calval $j 
-                            set ok 0
+            set parsed 0
+            while {!$parsed} {
+                for {set j 1} {$j < [array size table]} {incr j} {
+                    # ver::
+                    if {[$substr == [string range $table($j) 0 $n]]} {
+                        incr n;
+                        if{[string index $list($j) $n] == ""} {
+                            set parsed 1
+                            set calval $list($j)
                         }
 
                         append substr $char
 
                     } else {
-                        set n 0
-                        set ok 0
-                        set substr ""
+                        set parsed 1
                     }
-
                 }
-
-               
             }
         }
-
 
         if {$first_f} {
                 set first $calval
