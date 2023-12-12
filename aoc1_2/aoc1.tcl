@@ -12,31 +12,43 @@ proc calibrator_parser {t} {
 
     set first_f 1
     set calval ""
+
     for {set i 0} {$i < [string length $t]} {incr i} {
         set char [string index $t $i]
-
+        puts $i
         if {[string is digit -strict $char]} {
             set calval $char
         } else {
-            set n 0
-            set substr $char
-            set parsed 0
-            while {!$parsed} {
-                for {set j 1} {$j < [array size table]} {incr j} {
-                    # ver::
-                    if {[$substr == [string range $table($j) 0 $n]]} {
-                        incr n;
-                        if{[string index $list($j) $n] == ""} {
-                            set parsed 1
-                            set calval $list($j)
-                        }
+            set cc ""
+            set n 0   
+            set test 1
+            while {$test} {
 
-                        append substr $char
+                set cc $cc$char
+                for {set j 1} {$j <= 9} {incr j} {
+                    set tt [string range $table($j) 0 $n]
+                    puts "in: $cc\t test: $tt\n"
+                    if {$j == 9 && $n == 3} {exit}
+                    if {$cc == $tt} {
+                        if {$tt == $table($j)} {
+                            set n 0
+                            set calval $j
+                            set test 0
+                            set cc ""
+                        } 
+
+                        incr n
 
                     } else {
-                        set parsed 1
+                        if {$j >= 9} {
+                            set n 0
+                            set cc ""
+                            set test 0
+                        }
+                        set test 1
                     }
                 }
+             
             }
         }
 
@@ -58,6 +70,7 @@ set file [open $filename "r"]
 set calval 0
 
 # number parser
+##set a 1
 while {[gets $file line] >= 0} {
     set linevalue [calibrator_parser $line]
     #puts "linevalue = $linevalue"
