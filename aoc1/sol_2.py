@@ -22,9 +22,6 @@ with open('problem2.txt','r') as file:
             else:
                 for dig in digits:
                     if line[i:].startswith(dig):
-                        #print(dig)
-                        #zz = digit_dict[f'{dig}']
-                        #print(f'{zz}')
                         temp += digit_dict[f'{dig}']
         p.append(temp)
 

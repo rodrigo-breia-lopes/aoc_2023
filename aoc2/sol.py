@@ -8,7 +8,6 @@ with open('problem.txt','r') as file:
             # remover "Game x:"
             if (line[i] == ":"):
                 text.append(line[i+1:])
-#print(text)
 
 gg = []
 for line in text:
@@ -21,7 +20,6 @@ for line in text:
     gg.append(ggl)
 
 # gg:[game][set][dice][qnt:color]
-#print(gg)
 
 """
 only 12 red cubes, 13 green cubes, and 14 blue cubes
@@ -34,7 +32,6 @@ correct_idx = []
 
 for i in range(len(gg)): # game
 
-    #print(f"Game: {i+1}")
     failed = 0
     for j in range(len(gg[i])): # set
         quant = [0,0,0]
@@ -42,17 +39,13 @@ for i in range(len(gg)): # game
         for k in range(len(gg[i][j])): # dice
             for c in range(len(cases)):
                 if cases[c] in gg[i][j][k]:
-                    #print(f"cor: {cases[c]};\t dado: {gg[i][j][k]}")
                     quant[c] = int(gg[i][j][k][0])
                     
                     if quant[c] > max_quant[c]:
                         failed = 1;
-        #print(f"set: {quant}; fail: {failed}")
     if (not failed):
         correct_idx.append(i+1)
         
-#print(correct_idx)
-
 acc = 0;
 for id in correct_idx:
     acc += id
